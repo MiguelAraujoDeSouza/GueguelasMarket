@@ -145,5 +145,3 @@ type Produto struct {
 }
 ```
 
-Agora você tem uma API estruturada, bem documentada e pronta para ser utilizada! 🚀🔥
-
