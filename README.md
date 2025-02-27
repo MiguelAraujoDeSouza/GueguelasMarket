@@ -122,7 +122,6 @@ A API segue a seguinte estrutura de arquivos:
 ```
 /project-root
 │── main.go
-│── config.yaml
 │── docker-compose.yml
 │── models/
 │   ├── produto.go
