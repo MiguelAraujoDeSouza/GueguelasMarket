@@ -70,26 +70,22 @@ version: '3.8'
 
 services:
   db:
+    container_name: nome_container_db
     image: postgres:latest
-    restart: always
     environment:
-      POSTGRES_USER: seu_usuario
-      POSTGRES_PASSWORD: sua_senha
-      POSTGRES_DB: mercadinho_db
+      POSTGRES_USER: db_user
+      POSTGRES_PASSWORD: db_senha
+      POSTGRES_DB: db_nome
     ports:
       - "5432:5432"
-
   api:
+    container_name: nome_container_api
+    image: imagem_api
     build: .
     depends_on:
       - db
     ports:
       - "8080:8080"
-    environment:
-      DB_HOST: db
-      DB_USER: seu_usuario
-      DB_PASSWORD: sua_senha
-      DB_NAME: mercadinho_db
 ```
 
 Para rodar a API com o banco de dados, basta executar:
@@ -123,6 +119,7 @@ A API segue a seguinte estrutura de arquivos:
 /project-root
 │── main.go
 │── docker-compose.yml
+│── Dockerfile
 │── models/
 │   ├── products.go
 │── controllers/
@@ -136,11 +133,11 @@ A API segue a seguinte estrutura de arquivos:
 ### 📌 Exemplo de Struct para Produto
 ```go
 type Produto struct {
-    ID          uint    `json:"id" gorm:"primaryKey"
-    Nome        string  `json:"nome"`
-    Descricao   string  `json:"descricao"`
-    Preco       float64 `json:"preco"`
-    Quantidade  int     `json:"quantidade"`
+    id            uint    `json:"id" gorm:"primaryKey"
+    name          string  `json:"nome"`
+    description   string  `json:"descricao"`
+    Price         float64 `json:"preco"`
+    Quantity      int     `json:"quantidade"`
 }
 ```
 
