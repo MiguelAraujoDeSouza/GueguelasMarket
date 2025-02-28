@@ -93,6 +93,17 @@ Para rodar a API com o banco de dados, basta executar:
 docker-compose up -d
 ```
 
+## 🧾 Script para o banco
+ ```sql
+ create table products(
+      id serial PRIMARY KEY,
+      name varchar(255) not null ,
+      price numeric(10,2) not null ,
+      quantity int,
+      description varchar(255)
+ )
+ ```
+
 ---
 
 ## 🚀 Rodando a API
