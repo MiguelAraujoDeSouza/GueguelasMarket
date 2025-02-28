@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    container_name: gueguelasMarket
+    container_name: db_market
     image: postgres:latest
     environment:
       POSTGRES_USER: postgres
@@ -10,8 +10,6 @@ services:
       POSTGRES_DB: mercadinho_db
     ports:
       - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
   api:
     container_name: GueguelasMarket
     image: gueguelas
