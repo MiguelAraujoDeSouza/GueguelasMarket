@@ -13,7 +13,7 @@ Esta API foi desenvolvida em **Go** para gerenciar um **mercadinho**, permitindo
 ## 🔧 Endpoints Disponíveis
 
 ### 🏗️ Adicionar um Produto
-**POST** `/produtos`
+**POST** `/products`
 ```json
 {
   "nome": "Arroz 5kg",
@@ -24,13 +24,13 @@ Esta API foi desenvolvida em **Go** para gerenciar um **mercadinho**, permitindo
 ```
 
 ### 📖 Listar Produtos
-**GET** `/produtos`
+**GET** `/products`
 
 ### 🔍 Buscar Produto por ID
-**GET** `/produtos/{id}`
+**GET** `/products/{id}`
 
 ### ✏️ Atualizar Produto
-**PUT** `/produtos/{id}`
+**PUT** `/products/{id}`
 ```json
 {
   "nome": "Arroz 5kg",
@@ -41,7 +41,7 @@ Esta API foi desenvolvida em **Go** para gerenciar um **mercadinho**, permitindo
 ```
 
 ### ❌ Deletar Produto
-**DELETE** `/produtos/{id}`
+**DELETE** `/products/{id}`
 
 ---
 
@@ -132,13 +132,17 @@ A API segue a seguinte estrutura de arquivos:
 │── docker-compose.yml
 │── Dockerfile
 │── models/
-│   ├── products.go
+│   ├── product.go
 │── controllers/
-│   ├── productsController.go
+│   ├── productController.go
 │── routes/
 │   ├── routes.go
-│── database/
-│   ├── connection.go
+│── repository/
+│   ├── productRespository.go
+│── usecase/
+│   ├── productsUsecase.go
+│── db/
+│   ├── conn.go
 ```
 
 ### 📌 Exemplo de Struct para Produto
