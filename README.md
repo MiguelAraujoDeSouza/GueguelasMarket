@@ -33,10 +33,11 @@ Esta API foi desenvolvida em **Go** para gerenciar um **mercadinho**, permitindo
 **PUT** `/products/{id}`
 ```json
 {
-  "nome": "Arroz 5kg",
-  "descricao": "Arroz branco premium",
-  "preco": 27.50,
-  "quantidade": 80
+  "id": 1
+  "name": "Arroz 5kg",
+  "description": "Arroz branco tipo 1",
+  "price": 25.90,
+  "quantity": 100
 }
 ```
 
@@ -133,6 +134,7 @@ A API segue a seguinte estrutura de arquivos:
 │── Dockerfile
 │── models/
 │   ├── product.go
+│   ├── message.go
 │── controllers/
 │   ├── productController.go
 │── routes/
