@@ -21,6 +21,12 @@ func main() {
 
 	ProductController := controllers.NewProdutController(ProdcutUsecase)
 
+	api.GET("/health", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{
+			"health": "ok",
+		})
+	})
+
 	api.GET("/products", ProductController.GetProducts)
 
 	api.Run(":8080")
