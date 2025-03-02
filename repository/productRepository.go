@@ -6,18 +6,19 @@ import (
 )
 
 const (
-	getAll = "SELECT id,name,price,quantity,description FROM products;"
+	getAll        = "SELECT id,name,price,quantity,description FROM products;"
+	createProduct = "INSERT INTO products(name,price,quantity,description) VALUES ($1,$2,$3,$4) RETURNING id;"
 )
 
-type ProductRespository struct {
+type ProductRepository struct {
 	connection *sql.DB
 }
 
-func NewProductRespository(connection *sql.DB) ProductRespository {
-	return ProductRespository{connection: connection}
+func NewProductRepository(connection *sql.DB) ProductRepository {
+	return ProductRepository{connection: connection}
 }
 
-func (pr *ProductRespository) GetProducts() ([]models.Product, error) {
+func (pr *ProductRepository) GetProducts() ([]models.Product, error) {
 	query := getAll
 	rows, err := pr.connection.Query(query)
 	if err != nil {
@@ -42,4 +43,19 @@ func (pr *ProductRespository) GetProducts() ([]models.Product, error) {
 	}
 	rows.Close()
 	return products, nil
+}
+
+func (pr *ProductRepository) CreateProduct(product models.Product) (int, error) {
+	var id int
+	query := createProduct
+	q, err := pr.connection.Prepare(query)
+	if err != nil {
+		return 0, err
+	}
+	err = q.QueryRow(product.Name, product.Price, product.Quantity, product.Description).Scan(&id)
+	if err != nil {
+		return 0, err
+	}
+	q.Close()
+	return id, nil
 }

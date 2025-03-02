@@ -15,7 +15,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	ProductRepository := repository.NewProductRespository(dbConnection)
+	ProductRepository := repository.NewProductRepository(dbConnection)
 
 	ProdcutUsecase := usecase.NewProductUsecase(ProductRepository)
 
@@ -26,8 +26,7 @@ func main() {
 			"health": "ok",
 		})
 	})
-
 	api.GET("/products", ProductController.GetProducts)
-
+	api.POST("/products", ProductController.CreateProduct)
 	api.Run(":8080")
 }
