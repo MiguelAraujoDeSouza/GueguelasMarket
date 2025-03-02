@@ -5,6 +5,10 @@ import (
 	"database/sql"
 )
 
+const (
+	getAll = "SELECT id,name,price,quantity,description FROM products;"
+)
+
 type ProductRespository struct {
 	connection *sql.DB
 }
@@ -14,7 +18,7 @@ func NewProductRespository(connection *sql.DB) ProductRespository {
 }
 
 func (pr *ProductRespository) GetProducts() ([]models.Product, error) {
-	query := "SELECT id,name,price,quantity,description FROM products;"
+	query := getAll
 	rows, err := pr.connection.Query(query)
 	if err != nil {
 		return []models.Product{}, err
