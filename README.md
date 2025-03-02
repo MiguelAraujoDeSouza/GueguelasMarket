@@ -16,10 +16,10 @@ Esta API foi desenvolvida em **Go** para gerenciar um **mercadinho**, permitindo
 **POST** `/products`
 ```json
 {
-  "nome": "Arroz 5kg",
-  "descricao": "Arroz branco tipo 1",
-  "preco": 25.90,
-  "quantidade": 100
+  "name": "Arroz 5kg",
+  "description": "Arroz branco tipo 1",
+  "price": 25.90,
+  "quantity": 100
 }
 ```
 
