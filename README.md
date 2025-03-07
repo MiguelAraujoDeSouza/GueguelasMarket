@@ -46,22 +46,6 @@ Esta API foi desenvolvida em **Go** para gerenciar um **mercadinho**, permitindo
 
 ---
 
-## 🛠 Configuração do Banco de Dados (YAML)
-Crie um arquivo `config.yaml` e configure conforme seu banco de dados:
-
-```yaml
-banco_de_dados:
-  tipo: "postgres"
-  host: "localhost"
-  usuario: "seu_usuario"
-  senha: "sua_senha"
-  nome: "mercadinho_db"
-  porta: 5432
-  sslmode: "disable"
-```
-
----
-
 ## 📦 Docker
 Para facilitar a execução da API, podemos utilizar **Docker**. 
 Crie um arquivo `docker-compose.yml` e adicione:
