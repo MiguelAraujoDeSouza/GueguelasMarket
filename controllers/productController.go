@@ -5,13 +5,14 @@ import (
 	"api/usecase"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type produtController struct {
 	productUsecase usecase.ProductUsecase
 }
 
-func NewProdutController(usecase usecase.ProductUsecase) produtController {
+func NewProdutoController(usecase usecase.ProductUsecase) produtController {
 	return produtController{
 		productUsecase: usecase,
 	}
@@ -40,4 +41,44 @@ func (pc *produtController) CreateProduct(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusCreated, p)
+}
+
+func (pc *produtController) GetProductById(ctx *gin.Context) {
+	id := ctx.Param("id")
+	if id == "" {
+		ctx.JSON(http.StatusBadRequest, "ID is required")
+		return
+	}
+
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, "ID must be a number")
+		return
+	}
+
+	product, err := pc.productUsecase.GetProductById(idInt)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, product)
+}
+
+func (pc *produtController) DeleteProduct(ctx *gin.Context) {
+	id := ctx.Param("id")
+	if id == "" {
+		ctx.JSON(http.StatusBadRequest, "ID is required")
+		return
+	}
+
+	idInt, err := strconv.Atoi(id)
+
+	err = pc.productUsecase.DeleteProduct(idInt)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err)
+		return
+	}
+
+	ctx.JSON(http.StatusNoContent, nil)
 }

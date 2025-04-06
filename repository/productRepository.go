@@ -6,8 +6,10 @@ import (
 )
 
 const (
-	getAll        = "SELECT id,name,price,quantity,description FROM products;"
-	createProduct = "INSERT INTO products(name,price,quantity,description) VALUES ($1,$2,$3,$4) RETURNING id;"
+	getAll         = "SELECT id,name,price,quantity,description FROM products;"
+	createProduct  = "INSERT INTO products(name,price,quantity,description) VALUES ($1,$2,$3,$4) RETURNING id;"
+	getProductById = "SELECT id,name,price,quantity,description FROM products WHERE id = $1;"
+	deleteProduct  = "DELETE FROM products WHERE id = $1;"
 )
 
 type ProductRepository struct {
@@ -58,4 +60,37 @@ func (pr *ProductRepository) CreateProduct(product models.Product) (int, error) 
 	}
 	q.Close()
 	return id, nil
+}
+func (pr *ProductRepository) DeleteProduct(id int) error {
+	query := deleteProduct
+	q, err := pr.connection.Prepare(query)
+	if err != nil {
+		return err
+	}
+	_, err = q.Exec(id)
+	if err != nil {
+		return err
+	}
+	q.Close()
+	return nil
+}
+func (pr *ProductRepository) GetProductById(id int) (models.Product, error) {
+	query := getProductById
+	q, err := pr.connection.Prepare(query)
+	if err != nil {
+		return models.Product{}, err
+	}
+	var product models.Product
+	err = q.QueryRow(id).Scan(
+		&product.ID,
+		&product.Name,
+		&product.Price,
+		&product.Quantity,
+		&product.Description,
+	)
+	if err != nil {
+		return models.Product{}, err
+	}
+	q.Close()
+	return product, nil
 }

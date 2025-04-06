@@ -29,17 +29,6 @@ Esta API foi desenvolvida em **Go** para gerenciar um **mercadinho**, permitindo
 ### 🔍 Buscar Produto por ID
 **GET** `/products/{id}`
 
-### ✏️ Atualizar Produto
-**PUT** `/products/{id}`
-```json
-{
-  "nome": "Arroz 5kg",
-  "descricao": "Arroz branco premium",
-  "preco": 27.50,
-  "quantidade": 80
-}
-```
-
 ### ❌ Deletar Produto
 **DELETE** `/products/{id}`
 

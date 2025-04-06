@@ -1,32 +1,10 @@
 package main
 
 import (
-	"api/controllers"
-	"api/db"
-	"api/repository"
-	"api/usecase"
-	"github.com/gin-gonic/gin"
+	"api/routes"
 )
 
 func main() {
-	api := gin.Default()
-
-	dbConnection, err := db.ConnectDB()
-	if err != nil {
-		panic(err)
-	}
-	ProductRepository := repository.NewProductRepository(dbConnection)
-
-	ProdcutUsecase := usecase.NewProductUsecase(ProductRepository)
-
-	ProductController := controllers.NewProdutController(ProdcutUsecase)
-
-	api.GET("/health", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"health": "ok",
-		})
-	})
-	api.GET("/products", ProductController.GetProducts)
-	api.POST("/products", ProductController.CreateProduct)
-	api.Run(":8080")
+	router := routes.SetupRouter()
+	router.Run(":8080")
 }
