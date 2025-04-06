@@ -13,24 +13,24 @@ Esta API foi desenvolvida em **Go** para gerenciar um **mercadinho**, permitindo
 ## 🔧 Endpoints Disponíveis
 
 ### 🏗️ Adicionar um Produto
-**POST** `/produtos`
+**POST** `/products`
 ```json
 {
-  "nome": "Arroz 5kg",
-  "descricao": "Arroz branco tipo 1",
-  "preco": 25.90,
-  "quantidade": 100
+  "name": "Arroz 5kg",
+  "description": "Arroz branco tipo 1",
+  "price": 25.90,
+  "quantity": 100
 }
 ```
 
 ### 📖 Listar Produtos
-**GET** `/produtos`
+**GET** `/products`
 
 ### 🔍 Buscar Produto por ID
-**GET** `/produtos/{id}`
+**GET** `/products/{id}`
 
 ### ✏️ Atualizar Produto
-**PUT** `/produtos/{id}`
+**PUT** `/products/{id}`
 ```json
 {
   "nome": "Arroz 5kg",
@@ -41,7 +41,7 @@ Esta API foi desenvolvida em **Go** para gerenciar um **mercadinho**, permitindo
 ```
 
 ### ❌ Deletar Produto
-**DELETE** `/produtos/{id}`
+**DELETE** `/products/{id}`
 
 ---
 
@@ -70,32 +70,39 @@ version: '3.8'
 
 services:
   db:
+    container_name: nome_container_db
     image: postgres:latest
-    restart: always
     environment:
-      POSTGRES_USER: seu_usuario
-      POSTGRES_PASSWORD: sua_senha
-      POSTGRES_DB: mercadinho_db
+      POSTGRES_USER: db_user
+      POSTGRES_PASSWORD: db_senha
+      POSTGRES_DB: db_nome
     ports:
       - "5432:5432"
-
   api:
+    container_name: nome_container_api
+    image: imagem_api
     build: .
     depends_on:
       - db
     ports:
       - "8080:8080"
-    environment:
-      DB_HOST: db
-      DB_USER: seu_usuario
-      DB_PASSWORD: sua_senha
-      DB_NAME: mercadinho_db
 ```
 
 Para rodar a API com o banco de dados, basta executar:
 ```sh
 docker-compose up -d
 ```
+
+## 🧾 Script para o banco
+ ```sql
+ create table products(
+      id serial PRIMARY KEY,
+      name varchar(255) not null ,
+      price numeric(10,2) not null ,
+      quantity int,
+      description varchar(255)
+ )
+ ```
 
 ---
 
@@ -123,24 +130,29 @@ A API segue a seguinte estrutura de arquivos:
 /project-root
 │── main.go
 │── docker-compose.yml
+│── Dockerfile
 │── models/
-│   ├── produto.go
+│   ├── product.go
 │── controllers/
-│   ├── produtoController.go
+│   ├── productController.go
 │── routes/
 │   ├── routes.go
-│── database/
-│   ├── connection.go
+│── repository/
+│   ├── productRespository.go
+│── usecase/
+│   ├── productsUsecase.go
+│── db/
+│   ├── conn.go
 ```
 
 ### 📌 Exemplo de Struct para Produto
 ```go
 type Produto struct {
-    ID          uint    `json:"id" gorm:"primaryKey"
-    Nome        string  `json:"nome"`
-    Descricao   string  `json:"descricao"`
-    Preco       float64 `json:"preco"`
-    Quantidade  int     `json:"quantidade"`
+    id            uint    `json:"id" gorm:"primaryKey"
+    name          string  `json:"nome"`
+    description   string  `json:"descricao"`
+    Price         float64 `json:"preco"`
+    Quantity      int     `json:"quantidade"`
 }
 ```
 
