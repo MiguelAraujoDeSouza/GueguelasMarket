@@ -1,9 +1,10 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 const (
@@ -14,21 +15,13 @@ const (
 	dbname   = "mercadinho_db"
 )
 
-func ConnectDB() (*sql.DB, error) {
+func ConnectDB() *gorm.DB {
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 
-	db, err := sql.Open("postgres", psqlInfo)
+	var db, err = gorm.Open(postgres.Open(psqlInfo), &gorm.Config{})
 	if err != nil {
-		panic(err)
+		return nil
 	}
-
-	err = db.Ping()
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println("Connected to " + dbname)
-
-	return db, nil
+	return db
 }
