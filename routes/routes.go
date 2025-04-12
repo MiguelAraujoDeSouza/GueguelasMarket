@@ -11,19 +11,12 @@ import (
 
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
+	dbConnection := db.ConnectDB()
 
-	// Conecta ao banco de dados
-	dbConnection, err := db.ConnectDB()
-	if err != nil {
-		panic(err)
-	}
-
-	// Inicializa o repository, usecase e controller
 	productRepository := repository.NewProductRepository(dbConnection)
-	productUsecase := usecase.NewProductUsecase(productRepository)
-	productController := controllers.NewProdutoController(productUsecase)
+	productUseCase := usecase.NewProductUseCase(productRepository)
+	productController := controllers.NewProdutoController(productUseCase)
 
-	// Define as rotas
 	router.GET("/health", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{"health": "ok"})
 	})
